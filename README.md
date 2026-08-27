@@ -1,9 +1,5 @@
 # shopify-flutterflow-oauth-guide
 A complete, step-by-step master reference guide to implementing native mobile OAuth 2.0 with Shopify's Customer Account API inside FlutterFlow without broken web redirects.
-# Shopify Mobile OAuth 2.0 Authentication Loop (FlutterFlow & Flutter)
-
-A complete, step-by-step master reference guide to implementing a custom, native mobile OAuth 2.0 loop with Shopify's Customer Account API inside FlutterFlow without broken web redirects.
-
 ---
 
 ## Architecture Overview
