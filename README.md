@@ -204,44 +204,28 @@ Future<String?> launchInAppLoginBrowser(String urlString) async {
 
 ## Step 5: Shopify Token Exchange API Setup
 
-Trades the intercepted authorization code for customer account tokens.
+Trades the intercepted authorization code for customer account tokens using the OAuth 2.0 PKCE flow.
 
 1. Go to **API Calls** on the left menu and select or add your Shopify Token Exchange API configuration.
-
-
 2. **Configuration Settings:**
-* **Method Type:** `POST`
-
-* **API URL:** `https://YOUR_STORE_DOMAIN/authentication/oauth/token`
-
-
-
+   * **Method Type:** `POST`
+   * **API URL:** `https://YOUR_STORE_DOMAIN/authentication/oauth/token`
 3. **Variables Tab:**
-* Declare variable: `receivedCode` | Type: `String`
-
-
-
+   * Declare variable: `receivedCode` | Type: `String`
+   * *(Optional / Dynamic)* Declare variable: `codeVerifier` | Type: `String`
 4. **Body Tab:**
-* Format: `x-www-form-urlencoded`
-
-* Map the key-value pairs:
-
-
-* `grant_type` $\rightarrow$ `authorization_code`
-
-* `client_id` $\rightarrow$ `YOUR_CLIENT_ID`
-
-* `code` $\rightarrow$ `[receivedCode]` (Variable)
-
-
-* `redirect_uri` $\rightarrow$ `shop.YOUR_SHOP_ID.app://callback`
-
-
-
-
-
+   * Format: `x-www-form-urlencoded`
+   * Map the key-value pairs:
+     * `grant_type` -> `authorization_code`
+     * `client_id` -> `YOUR_CLIENT_ID`
+     * `code` -> `[receivedCode]` (Variable)
+     * `redirect_uri` -> `shop.YOUR_SHOP_ID.app://callback`
+     * `code_verifier` -> `YOUR_CODE_VERIFIER` (or `[codeVerifier]` variable)
 5. Click **Save**.
 
+> **Important Security & PKCE Note:**
+> * **For Initial Testing:** You can provide a static `code_verifier` string that mathematically hashes (SHA-256 + base64url) to the `code_challenge` set in Step 3.
+> * **For Production / Go-Live:** Never hardcode a static challenge/verifier in production. Generate a dynamic, cryptographically secure random `code_verifier` per login session, compute its S256 `code_challenge` in `buildShopifyLoginUrl`, and pass the matching `code_verifier` into this token exchange API call.
 
 
 ---
